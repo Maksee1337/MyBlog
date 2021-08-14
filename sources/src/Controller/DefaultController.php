@@ -63,7 +63,7 @@ class DefaultController extends AbstractController
         $news->setAuthor('Author');
         $news->setDateTime($datetime);
         $news->setShort('Short Description '.$hash);
-        $news->setText('Full Description '. $hash);
+        $news->setText('Full Description '. $hash.'1');
         $news->setViews(0);
 
         $em = $this->getDoctrine()->getManager();
