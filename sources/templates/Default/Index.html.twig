@@ -9,9 +9,8 @@
             {% for record in news %}
                 <article class="blog-post">
                     <h2 class="blog-post-title">{{ record.Short }}</h2>
-                    <p class="blog-post-meta">{{ record.datetime|date("d/m/Y H:i:s")}} by <a href="#">{{ record.Author }}</a></p>
-
-                    {{ record.Text }}
+                    <p class="blog-post-meta">{{ record.datetime|date("d/m/Y H:i:s")}} by {{ record.Author }} <a href="{{ path("News_ShowPost", {post: record.id}) }}">Show</a></p>
+                    <p>{{ record.Text }}</p>
                 </article>
                 {% endfor %}
 

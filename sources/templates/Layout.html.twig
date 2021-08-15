@@ -5,9 +5,9 @@
 
 
         <!-- Bootstrap core CSS -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
 {#        <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">#}
-        <link href="css/blog.css" rel="stylesheet">
+        <link href="../css/blog.css" rel="stylesheet">
     </head>
     <body>
         <div class="container">
@@ -25,9 +25,10 @@
             <div class="nav-scroller py-1 mb-2">
                 <nav class="nav d-flex justify-content-start">
                     <a class="p-2 link-secondary" href="{{ path('Default_Index') }}">Homepage</a>
+
+                    <a class="p-2 link-secondary" href="{{ path('News_NewPost') }}">New Post</a>
                     <a class="p-2 link-secondary" href="{{ path('Default_About') }}">About</a>
                     <a class="p-2 link-secondary" href="{{ path('Default_Feedback') }}">Feedback</a>
-                    <a class="p-2 link-secondary" href="{{ path('Default_GenerateNews') }}">Generate News</a>
                     <a class="p-2 link-secondary" href="https://instagram.com" target="_blank">Instagram</a>
                     <a class="p-2 link-secondary" href="https://facebook.com" target="_blank">Facebook</a>
                 </nav>

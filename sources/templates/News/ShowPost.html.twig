@@ -1,0 +1,12 @@
+{% extends 'Layout.html.twig' %}
+
+{% block body %}
+
+    <main class="container">
+        <article class="blog-post">
+            <h2 class="blog-post-title">{{ post.Short }}</h2>
+            <p class="blog-post-meta">{{ post.datetime|date("d/m/Y H:i:s")}} by {{ post.Author }} <a href="{{ path("News_EditPost", {post: post.id}) }}">Edit</a></p>
+            <p>{{ post.Text }}</p>
+        </article>
+    </main>
+{% endblock %}

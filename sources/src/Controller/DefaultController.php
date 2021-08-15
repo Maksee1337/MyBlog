@@ -26,7 +26,7 @@ class DefaultController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $news = $em->getRepository(News::class)->findAll();
-
+        $news = array_reverse($news);   // перевернул массив чтоб сначала были новые записи
         return $this->render('Default/Index.html.twig', ['news' => $news]);
     }
 
@@ -48,31 +48,5 @@ class DefaultController extends AbstractController
     public function Feedback()
     {
         return $this->render('Default/Feedback.html.twig');
-    }
-
-    /**
-     * @Route("/GenerateNews", name="Default_GenerateNews")
-     *
-     * @return Response
-     */
-    public function GenerateNews() :Response
-    {
-        $datetime = new \DateTime();
-        $hash = uniqid();
-        $news = new News();
-        $news->setAuthor('Author');
-        $news->setDateTime($datetime);
-        $news->setShort('Short Description '.$hash);
-        $news->setText('Full Description '. $hash.'1 2');
-        $news->setViews(0);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($news);
-        $em->flush();
-
-        return $this->render('Default/GenerateNews.html.twig', [
-                                                                    'DateTime' => $datetime->format('d/m/Y H:i:s'),
-                                                                    'hash' => $hash
-                                                                    ]);
     }
 }
