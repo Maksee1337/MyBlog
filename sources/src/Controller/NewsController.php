@@ -4,12 +4,15 @@
 namespace App\Controller;
 
 use App\Entity\News;
+use App\Form\DownloadForm;
 use App\Form\PostForm;
 use http\Env\Response;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Class NewsController
@@ -48,7 +51,6 @@ class NewsController extends AbstractController
         return $this->render('News/NewPost.html.twig', [
             'post' => $post,
             'form' => $form->createView(),
-            'H1' => 'Create a new post',
         ]);
     }
 
@@ -65,9 +67,6 @@ class NewsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { // проверка что пришел запрос и он валиден
-            //проверяем это обновление поста или удаление
-            //если в после есть ключ Submit то обновляем и перекидываем на страницу поста
-            if ( array_key_exists('Submit', $request->request->get('post_form'))) {
                 $post->setDateTime(new \DateTime());
                 $post->setViews(0);
 
@@ -78,24 +77,57 @@ class NewsController extends AbstractController
                 return $this->redirectToRoute('News_ShowPost', [
                     'post' => $post->getId(),
                 ]);
-            } else {
-                //если в после есть ключ Delete то удаляем пост и переходим на главную страницу
-                if (array_key_exists('Delete', $request->request->get('post_form'))) {
-
-                    $em = $this->getDoctrine()->getManager();
-                    $em->remove($post);
-                    $em->flush();
-
-                    return $this->redirectToRoute('Default_Index');
-                }
-            }
         }
 
         return $this->render('News/NewPost.html.twig', [
             'post' => $post,
             'form' => $form->createView(),
-            'H1' => 'Edit a post',
         ]);
+    }
+
+    /**
+     * DeletePost - удаляет пост
+     * @Route("/DeletePost/{post}", name="News_DeletePost")
+     * @param News $post
+     * @return Response
+     */
+    public function DeletePost(News $post)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($post);
+        $em->flush();
+        return $this->redirectToRoute('Default_Index');
+    }
+
+    /**
+     * DownloadFile - отдает данные в виде файла
+     * @Route("/DownloadFile/{post}/{type}", name="News_DownloadFile")
+     * @param News   $post
+     * @param string $type
+     * @return Response
+     */
+    public function DownloadFile(News $post, $type)
+    {
+        $filename = '';
+        $fileContent = '';
+
+        if ($type == 'text') {
+            $filename = $post->getId() . '.txt';
+            $fileContent = $post->getShort();
+            $fileContent .= "\n\n".$post->getText();
+        } elseif ($type == 'html') {
+            $filename = $post->getId() . '.html';
+            $fileContent = $post->getShort();
+            $fileContent .= '<br><br>'.$post->getText();
+        }
+        $response = new \Symfony\Component\HttpFoundation\Response($fileContent);
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 
     /**
@@ -106,8 +138,11 @@ class NewsController extends AbstractController
      */
     public function ShowPost(News $post)
     {
+        $downloadForm = $this->createForm(DownloadForm::class, $post);
+
         return $this->render('News/ShowPost.html.twig', [
             'post' => $post,
+            'form' => $downloadForm->createView(),
         ]);
     }
 }

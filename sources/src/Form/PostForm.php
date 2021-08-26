@@ -31,7 +31,11 @@ class PostForm extends AbstractType
         $builder->add('Submit', SubmitType::class);
 
         if ($options['data']->getId()) { // если пришел айди в запросе, значит это редактирование, выведем кнопку удалить
-            $builder->add('Delete', SubmitType::class);
+            $builder->add('Delete', SubmitType::class, [
+                'attr' => [
+                    'formaction' => '/DeletePost/'.$options['data']->getId(),
+                ],
+            ]);
         }
     }
 }
