@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 use App\Entity\News;
+use App\Service\DownloadPost;
 use App\Form\DownloadForm;
 use App\Form\PostForm;
 use http\Env\Response;
@@ -11,8 +12,6 @@ use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * Class NewsController
@@ -102,32 +101,14 @@ class NewsController extends AbstractController
     /**
      * DownloadFile - отдает данные в виде файла
      * @Route("/DownloadFile/{post}/{type}", name="News_DownloadFile")
-     * @param News   $post
-     * @param string $type
+     * @param News         $post
+     * @param string       $type
+     * @param DownloadPost $downloadPost
      * @return Response
      */
-    public function DownloadFile(News $post, $type)
+    public function DownloadFile(News $post, $type, DownloadPost $downloadPost)
     {
-        $filename = '';
-        $fileContent = '';
-
-        if ($type == 'text') {
-            $filename = $post->getId() . '.txt';
-            $fileContent = $post->getShort();
-            $fileContent .= "\n\n".$post->getText();
-        } elseif ($type == 'html') {
-            $filename = $post->getId() . '.html';
-            $fileContent = $post->getShort();
-            $fileContent .= '<br><br>'.$post->getText();
-        }
-        $response = new \Symfony\Component\HttpFoundation\Response($fileContent);
-        $disposition = $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $filename
-        );
-        $response->headers->set('Content-Disposition', $disposition);
-
-        return $response;
+        return $downloadPost->download($post, $type);
     }
 
     /**
