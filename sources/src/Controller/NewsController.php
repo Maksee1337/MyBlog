@@ -10,6 +10,7 @@ use App\Form\PostForm;
 use http\Env\Response;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -108,7 +109,19 @@ class NewsController extends AbstractController
      */
     public function DownloadFile(News $post, $type, DownloadPost $downloadPost)
     {
-        return $downloadPost->download($post, $type);
+        $fileContent = $downloadPost->GetContent($post, $type);
+
+        if($fileContent) {
+            $response = new \Symfony\Component\HttpFoundation\Response($fileContent['fileContent']);
+            $disposition = $response->headers->makeDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $fileContent['fileName'],
+            );
+            $response->headers->set('Content-Disposition', $disposition);
+            return $response;
+        } else {
+            return new Response('Type error');
+        }
     }
 
     /**

@@ -15,9 +15,9 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class DownloadPost
 {
     /**
-     * @var string $filename
+     * @var string $fileName
      */
-    protected $filename = '';
+    protected$fileName = '';
 
     /**
      * @var string $fileContent
@@ -25,28 +25,25 @@ class DownloadPost
     protected $fileContent = '';
 
     /**
-     * download - метод для скачивания файла
+     * GetContent - метод для скачивания файла
      * @param News   $post
      * @param string $type
-     * @return Response
+     * @return string
      */
-    public function download(News $post, $type)
+    public function GetContent(News $post, $type)
     {
         if ($type == 'text') {
             $this->getText($post);
         } elseif ($type == 'html') {
             $this->getHtml($post);
         } else {
-            return new Response('Type error');
+            return false;
         }
 
-        $response = new \Symfony\Component\HttpFoundation\Response($this->fileContent);
-        $disposition = $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $this->filename
-        );
-        $response->headers->set('Content-Disposition', $disposition);
-        return $response;
+        return [
+            'fileName' => $this->fileName,
+            'fileContent' => $this->fileContent,
+            ];
     }
 
     /**
@@ -55,7 +52,7 @@ class DownloadPost
      */
     protected function getText(News $post)
     {
-        $this->filename = $post->getId() . '.txt';
+        $this->fileName = $post->getId() . '.txt';
         $this->fileContent = $post->getShort();
         $this->fileContent .= "\n\n".$post->getText();
     }
@@ -66,7 +63,7 @@ class DownloadPost
      */
     protected function getHtml(News $post)
     {
-        $this->filename = $post->getId() . '.html';
+        $this->fileName = $post->getId() . '.html';
         $this->fileContent = $post->getShort();
         $this->fileContent .= '<br><br>'.$post->getText();
     }
