@@ -23,7 +23,7 @@ class News
     private $Short;
 
     /**
-     * @ORM\Column(type="string", length=20000)
+     * @ORM\Column(type="string", length=1000)
      */
     private $Text;
 

@@ -4,7 +4,9 @@
 namespace App\Controller;
 
 use App\Entity\News;
-use App\Service\DownloadPost;
+use App\Service\DownloadPostResponce;
+use App\Service\DownloadPostText;
+use App\Service\DownloadPostHtml;
 use App\Form\DownloadForm;
 use App\Form\PostForm;
 use http\Env\Response;
@@ -14,8 +16,10 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+
 /**
- * Class NewsController
+ * Class NewsControllerTest
  *
  * @package App\Controller
  *
@@ -100,30 +104,28 @@ class NewsController extends AbstractController
     }
 
     /**
-     * DownloadFile - отдает данные в виде файла
-     * @Route("/DownloadFile/{post}/{type}", name="News_DownloadFile")
-     * @param News         $post
-     * @param string       $type
-     * @param DownloadPost $downloadPost
-     * @return Response
+     * @Route("/DownloadFile/{post}/Text", name="DownloadFile_Text")
+     * @param News                 $post
+     * @param DownloadPostText     $exporterText
+     * @param DownloadPostResponce $downloadPostResponce
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function DownloadFile(News $post, $type, DownloadPost $downloadPost)
+    public function downloadText(News $post, DownloadPostText $exporterText, DownloadPostResponce $downloadPostResponce)
     {
-        $fileContent = $downloadPost->GetContent($post, $type);
-
-        if($fileContent) {
-            $response = new \Symfony\Component\HttpFoundation\Response($fileContent['fileContent']);
-            $disposition = $response->headers->makeDisposition(
-                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                $fileContent['fileName'],
-            );
-            $response->headers->set('Content-Disposition', $disposition);
-            return $response;
-        } else {
-            return new Response('Type error');
-        }
+        return $downloadPostResponce->getResponce($exporterText->getDataFromPost($post));
     }
 
+    /**
+     * @Route("/DownloadFile/{post}/Html", name="DownloadFile_Html")
+     * @param News                 $post
+     * @param DownloadPostHtml     $exporterHtml
+     * @param DownloadPostResponce $downloadPostResponce
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function downloadHtml(News $post, DownloadPostHtml $exporterHtml, DownloadPostResponce $downloadPostResponce)
+    {
+        return $downloadPostResponce->getResponce($exporterHtml->getDataFromPost($post));
+    }
     /**
      * ShowPost выводит пост на страницу. сам пост формируется автоматически из аргуметов метода
      * @Route("/ShowPost/{post}", name="News_ShowPost")
