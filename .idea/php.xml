@@ -132,6 +132,7 @@
       <path value="$PROJECT_DIR$/sources/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/sources/vendor/doctrine/migrations" />
       <path value="$PROJECT_DIR$/sources/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/sources/vendor/symfony/google-mailer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

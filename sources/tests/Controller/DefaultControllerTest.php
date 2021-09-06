@@ -36,5 +36,18 @@ class DefaultControllerTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('body', 'Homepage');
+
+        $name = uniqid();
+        $text = uniqid();
+        $email = uniqid().'@gmail.com';
+
+        $form = $crawler->selectButton('Submit')->form();
+        $form['feedback_form[Name]'] = $name;
+        $form['feedback_form[Text]'] = $text;
+        $form['feedback_form[Email]'] = $email;
+        $client->submit($form);
+
+        $this->assertResponseRedirects('/');
+
     }
 }

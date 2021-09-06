@@ -132,6 +132,7 @@
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/doctrine/migrations" />
       <excludeFolder url="file://$MODULE_DIR$/sources/vendor/doctrine/orm" />
+      <excludeFolder url="file://$MODULE_DIR$/sources/vendor/symfony/google-mailer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

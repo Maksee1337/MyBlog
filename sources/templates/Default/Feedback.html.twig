@@ -1,7 +1,13 @@
 {% extends 'Layout.html.twig' %}
 
 {% block body %}
+
     <main class="container">
-        This is feedback page!
+        <h1>Feedback</h1>
+        <div class="row">
+            <div class="col-5">
+                {{ form(form) }}
+            </div>
+        </div>
     </main>
 {% endblock %}

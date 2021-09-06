@@ -4,7 +4,11 @@ namespace App\Controller;
 
 use App\Entity\News;
 use App\Entity\Users;
+use App\Form\FeedbackForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,8 +49,23 @@ class DefaultController extends AbstractController
      *
      * @return Response
      */
-    public function Feedback()
+    public function Feedback(Request $request, MailerInterface $mailer)
     {
-        return $this->render('Default/Feedback.html.twig');
+        $post = $request->request->get('feedback_form');
+
+        if (NULL != $post) {
+            $email = new Email();
+            $email->from('burm.courses@gmail.com');
+            $email->to('m.voytenko1991@gmail.com');
+            $email->subject('Feedback from '. $post['Name']);
+            $email->text($post['Text'] . "\n\nAuthor: ". $post['Email']);
+            $mailer->send($email);
+            return $this->redirectToRoute('Default_Index');
+        }
+
+        $form = $this->createForm(FeedbackForm::class);
+        return $this->render('Default/Feedback.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }
