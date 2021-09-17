@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class PostForm
@@ -17,6 +18,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
  */
 class PostForm extends AbstractType
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * PostForm constructor.
+     * @param TranslatorInterface $translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -25,10 +39,12 @@ class PostForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('Short', TextType::class);
-        $builder->add('Text', TextareaType::class);
-        $builder->add('Author', TextType::class);
-        $builder->add('Submit', SubmitType::class);
+        $translator = $this->translator;
+
+        $builder->add('Short', TextType::class, ['label' => $translator->trans('Short description')]);
+        $builder->add('Text', TextareaType::class, ['label' => $translator->trans('Full description')]);
+        $builder->add('Author', TextType::class, ['label' => $translator->trans('Author')]);
+        $builder->add('Submit', SubmitType::class, ['label' => $translator->trans('Submit')]);
 
         if ($options['data']->getId()) { // если пришел айди в запросе, значит это редактирование, выведем кнопку удалить
             $builder->add('Delete', SubmitType::class, [

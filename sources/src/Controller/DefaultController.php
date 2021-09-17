@@ -11,6 +11,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class DefaultController
@@ -21,6 +22,10 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class DefaultController extends AbstractController
 {
+
+    public function defaultLocate(){
+       return $this->redirectToRoute('Default_Index');
+    }
     /**
      * @Route("/", name="Default_Index")
      *
@@ -39,9 +44,9 @@ class DefaultController extends AbstractController
      *
      * @return Response
      */
-    public function About()
+    public function About(TranslatorInterface $translator)
     {
-        return $this->render('Default/About.html.twig', ['text' => '222some text']);
+        return $this->render('Default/About.html.twig', ['text' => $translator->trans('About')]);
     }
 
     /**

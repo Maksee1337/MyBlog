@@ -2,7 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\News;
+use
+    App\Entity\News;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -136,7 +137,7 @@ class NewsControllerTest extends WebTestCase
         $this->assertResponseRedirects('/');
 
         // проверяем есть ли пост в базе
-        $this->assertTrue(NULL==$this->getPostById($lastPostId));
+        $this->assertTrue(NULL == $this->getPostById($lastPostId));
     }
 
 }

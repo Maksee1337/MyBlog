@@ -1,3 +1,14 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+nolocale:
+  path: /
+  controller: App\Controller\DefaultController::defaultLocate
+
+app:
+  prefix: /{_locale}/
+  type: annotation
+  resource: ../src/Controller/*
+  requirements:
+    _locale: en|ru

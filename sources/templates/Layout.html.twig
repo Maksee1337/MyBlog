@@ -15,6 +15,10 @@
                 <div class="row flex-nowrap justify-content-between align-items-center">
                     <div class="col-8 d-flex  justify-content-start align-items-start">
                         Logo
+
+                        <a  href="{{ path(app.request.get('_route') , {_locale:'en'}, true) }}">{{ 'EN' }}</a>
+                        <a  href="{{ path(app.request.get('_route') , {_locale:'ru'}, true) }}">{{ 'RU' }}</a>
+
                     </div>
                     <div class="col-4 d-flex justify-content-end align-items-center">
                         <a class="btn btn-sm btn-outline-secondary" href="#">Sign up</a>
@@ -24,11 +28,11 @@
 
             <div class="nav-scroller py-1 mb-2">
                 <nav class="nav d-flex justify-content-start">
-                    <a class="p-2 link-secondary" href="{{ path('Default_Index') }}">Homepage</a>
+                    <a class="p-2 link-secondary" href="{{ path('Default_Index') }}">{{ 'Homepage'|trans }}</a>
 
-                    <a class="p-2 link-secondary" href="{{ path('News_NewPost') }}">New Post</a>
-                    <a class="p-2 link-secondary" href="{{ path('Default_About') }}">About</a>
-                    <a class="p-2 link-secondary" href="{{ path('Default_Feedback') }}">Feedback</a>
+                    <a class="p-2 link-secondary" href="{{ path('News_NewPost') }}">{{ 'New Post'|trans }}</a>
+                    <a class="p-2 link-secondary" href="{{ path('Default_About') }}">{{ 'About'|trans }}</a>
+                    <a class="p-2 link-secondary" href="{{ path('Default_Feedback') }}">{{ 'Feedback'|trans }}</a>
                     <a class="p-2 link-secondary" href="https://instagram.com" target="_blank">Instagram</a>
                     <a class="p-2 link-secondary" href="https://facebook.com" target="_blank">Facebook</a>
                 </nav>
