@@ -1,0 +1,22 @@
+{% extends 'Layout.html.twig' %}
+
+{% block body %}
+
+    <main class="container">
+
+    <form action="{{ path('User_NewPass') }}" method="post">
+        {% if error %}
+            <div>{{ error }}</div>
+        {% endif %}
+        <p>
+        Enter your username. New password will be sent to your email
+        </p>
+        <p>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="_username" value=""/>
+        </p>
+        <button type="submit">Send</button>
+    </form>
+    </main>
+
+{% endblock %}

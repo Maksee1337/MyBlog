@@ -1,0 +1,30 @@
+{% extends 'Layout.html.twig' %}
+
+{% block body %}
+
+    <main class="container">
+    {% if error %}
+        <p>
+            <div>{{ error }}</div>
+        </p>
+    {% endif %}
+
+    <form action="{{ path('User_Login') }}" method="post">
+        <p>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+        </p>
+
+        <p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="_password"/>
+        </p>
+        <p>
+            <a href="{{ path("User_NewPass") }}">Forgot password?</a>
+        </p>
+
+        <button type="submit">login</button>
+    </form>
+    </main>
+
+{% endblock %}

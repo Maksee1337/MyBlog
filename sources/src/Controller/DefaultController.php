@@ -11,6 +11,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -22,10 +23,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DefaultController extends AbstractController
 {
-
-    public function defaultLocate(){
-       return $this->redirectToRoute('Default_Index');
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function defaultLocate()
+    {
+        return $this->redirectToRoute('Default_Index');
     }
+
     /**
      * @Route("/", name="Default_Index")
      *
@@ -33,6 +38,8 @@ class DefaultController extends AbstractController
      */
     public function Index()
     {
+       // $user = $this->getUser();
+      //  dd($user);
         $em = $this->getDoctrine()->getManager();
         $news = $em->getRepository(News::class)->findAll();
         $news = array_reverse($news);   // перевернул массив чтоб сначала были новые записи
@@ -41,6 +48,8 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/About", name="Default_About")
+     *
+     * @param TranslatorInterface $translator
      *
      * @return Response
      */
@@ -52,13 +61,16 @@ class DefaultController extends AbstractController
     /**
      * @Route("/Feedback", name="Default_Feedback")
      *
+     * @param Request         $request
+     * @param MailerInterface $mailer
+     *
      * @return Response
      */
     public function Feedback(Request $request, MailerInterface $mailer)
     {
         $post = $request->request->get('feedback_form');
 
-        if (NULL != $post) {
+        if (null != $post) {
             $email = new Email();
             $email->from('burm.courses@gmail.com');
             $email->to('m.voytenko1991@gmail.com');

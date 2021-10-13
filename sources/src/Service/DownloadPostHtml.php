@@ -24,8 +24,9 @@ class DownloadPostHtml implements DownloadPostInterface
         $fileContent = $post->getShort();
         $fileContent .= '<br><br>'.$post->getText();
 
-        return ['fileName' => $fileName,
-                'fileContent' => $fileContent,
+        return [
+            'fileName' => $fileName,
+            'fileContent' => $fileContent,
             ];
     }
 }

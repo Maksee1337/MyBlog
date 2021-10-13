@@ -24,8 +24,9 @@ class DownloadPostText implements DownloadPostInterface
         $fileContent = $post->getShort();
         $fileContent .= "\n\n".$post->getText();
 
-        return ['fileName' => $fileName,
-                'fileContent' => $fileContent,
+        return [
+            'fileName' => $fileName,
+            'fileContent' => $fileContent,
         ];
     }
 }

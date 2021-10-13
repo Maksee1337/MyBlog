@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
  */
 class DownloadPostResponce
 {
+    /**
+     * @param array $data
+     * @return Response
+     */
     public function getResponce($data)
     {
         $response = new Response($data['fileContent']);

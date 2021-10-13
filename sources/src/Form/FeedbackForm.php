@@ -45,7 +45,7 @@ class FeedbackForm extends AbstractType
 
         $builder->add('Name', TextType::class, ['label' => 'Enter Your Name']); // работает и так
         $builder->add('Text', TextareaType::class, ['label' => $translator->trans('Enter Your Text')]);
-        $builder->add('Email', EmailType::class, ['label' =>$translator->trans('Enter Your Email Address') ]);
-        $builder->add('Submit', SubmitType::class, ['label' =>$translator->trans('Submit') ]);
+        $builder->add('Email', EmailType::class, ['label' => $translator->trans('Enter Your Email Address')]);
+        $builder->add('Submit', SubmitType::class, ['label' => $translator->trans('Submit')]);
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controller;
 
 use App\Entity\News;
@@ -15,8 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-
 
 /**
  * Class NewsControllerTest
@@ -112,6 +109,7 @@ class NewsController extends AbstractController
      */
     public function downloadText(News $post, DownloadPostText $exporterText, DownloadPostResponce $downloadPostResponce)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $downloadPostResponce->getResponce($exporterText->getDataFromPost($post));
     }
 
@@ -124,6 +122,7 @@ class NewsController extends AbstractController
      */
     public function downloadHtml(News $post, DownloadPostHtml $exporterHtml, DownloadPostResponce $downloadPostResponce)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $downloadPostResponce->getResponce($exporterHtml->getDataFromPost($post));
     }
     /**
