@@ -1055,154 +1055,172 @@
       <Collation>utf8_unicode_ci</Collation>
     </table>
     <table id="337" parent="2" name="news"/>
-    <table id="338" parent="2" name="user"/>
-    <table id="339" parent="3" name="news"/>
-    <table id="340" parent="3" name="users"/>
-    <column id="341" parent="336" name="version">
+    <table id="338" parent="2" name="subscribers"/>
+    <table id="339" parent="2" name="user"/>
+    <table id="340" parent="3" name="news"/>
+    <table id="341" parent="3" name="users"/>
+    <column id="342" parent="336" name="version">
       <Position>1</Position>
       <DataType>varchar(191)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="342" parent="336" name="executed_at">
+    <column id="343" parent="336" name="executed_at">
       <Position>2</Position>
       <DataType>datetime|0s</DataType>
     </column>
-    <column id="343" parent="336" name="execution_time">
+    <column id="344" parent="336" name="execution_time">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <key id="344" parent="336" name="PRIMARY">
+    <key id="345" parent="336" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="345" parent="337" name="id">
+    <column id="346" parent="337" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="346" parent="337" name="Short">
+    <column id="347" parent="337" name="Short">
       <Position>2</Position>
       <DataType>varchar(350)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="347" parent="337" name="Text">
+    <column id="348" parent="337" name="Text">
       <Position>3</Position>
       <DataType>varchar(1000)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="348" parent="337" name="author">
+    <column id="349" parent="337" name="author">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="349" parent="337" name="date_time">
+    <column id="350" parent="337" name="date_time">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="350" parent="337" name="views">
+    <column id="351" parent="337" name="views">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="351" parent="337" name="PRIMARY">
+    <key id="352" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="352" parent="338" name="id">
+    <column id="353" parent="338" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="353" parent="338" name="login">
+    <column id="354" parent="338" name="email">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="355" parent="338" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="356" parent="339" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="357" parent="339" name="login">
       <Position>2</Position>
       <DataType>varchar(180)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="354" parent="338" name="roles">
+    <column id="358" parent="339" name="roles">
       <Position>3</Position>
+      <Comment>(DC2Type:json)</Comment>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
-      <Collation>utf8mb4_bin</Collation>
     </column>
-    <column id="355" parent="338" name="password">
+    <column id="359" parent="339" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="356" parent="338" name="email">
+    <column id="360" parent="339" name="email">
       <Position>5</Position>
-      <DataType>varchar(180)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <index id="357" parent="338" name="UNIQ_8D93D649AA08CB10">
+    <index id="361" parent="339" name="UNIQ_8D93D649AA08CB10">
       <ColNames>login</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="358" parent="338" name="PRIMARY">
+    <key id="362" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="359" parent="338" name="UNIQ_8D93D649AA08CB10">
+    <key id="363" parent="339" name="UNIQ_8D93D649AA08CB10">
       <ColNames>login</ColNames>
       <UnderlyingIndexName>UNIQ_8D93D649AA08CB10</UnderlyingIndexName>
     </key>
-    <column id="360" parent="339" name="id">
+    <column id="364" parent="340" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="361" parent="339" name="short">
+    <column id="365" parent="340" name="short">
       <Position>2</Position>
       <DataType>varchar(350)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="362" parent="339" name="text">
+    <column id="366" parent="340" name="text">
       <Position>3</Position>
       <DataType>varchar(1000)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="363" parent="339" name="author">
+    <column id="367" parent="340" name="author">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
     </column>
-    <column id="364" parent="339" name="date_time">
+    <column id="368" parent="340" name="date_time">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="365" parent="339" name="views">
+    <column id="369" parent="340" name="views">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="366" parent="339" name="PRIMARY">
+    <key id="370" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="367" parent="340" name="id">
+    <column id="371" parent="341" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="368" parent="340" name="login">
+    <column id="372" parent="341" name="login">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="369" parent="340" name="password">
+    <column id="373" parent="341" name="password">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="370" parent="340" name="PRIMARY">
+    <key id="374" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

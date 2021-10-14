@@ -1,0 +1,16 @@
+{% extends 'Layout.html.twig' %}
+
+{% block body %}
+
+    <main class="container">
+        {% if error %}
+            {{ error }}
+        {% endif %}
+        <div class="row">
+            <div class="col-5">
+        {{ form(form) }}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

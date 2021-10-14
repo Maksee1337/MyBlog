@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\News;
+use App\Entity\Subscribers;
 use App\Entity\User;
 use App\Form\FeedbackForm;
+use App\Form\PostForm;
+use App\Form\SubscribeForm;
+use App\Form\UnSubscribeForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -80,5 +84,70 @@ class UserController extends AbstractController
                 ]);
             }
         }
+    }
+
+    /**
+     * @Route("/Subscribe", name="User_Subscribe")
+     * @param Request $request
+     * @return Response
+     */
+    public function Subscribe(Request $request): Response
+    {
+        $subscriber = new Subscribers();
+        $form = $this->createForm(SubscribeForm::class, $subscriber);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $tmp = $em->getRepository(Subscribers::class)->findOneBy(['email' => $subscriber->getEmail()]);
+            if (is_null($tmp)) {
+                $em->persist($subscriber);
+                $em->flush();
+                return $this->redirectToRoute('Default_Index');
+            } else {
+                return $this->render('User/Subscribe.html.twig', [
+                    'form' => $form->createView(),
+                    'error' => 'You already subscribed.',
+                ]);
+            }
+
+        }
+
+        return $this->render('User/Subscribe.html.twig', [
+            'form' => $form->createView(),
+            'error' => false,
+        ]);
+    }
+
+    /**
+     * @Route("/UnSubscribe", name="User_UnSubscribe")
+     * @param Request $request
+     * @return Response
+     */
+    public function UnSubscribe(Request $request): Response
+    {
+        $subscriber = new Subscribers();
+        $form = $this->createForm(UnSubscribeForm::class, $subscriber);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $tmp = $em->getRepository(Subscribers::class)->findOneBy(['email' => $subscriber->getEmail()]);
+
+            if (is_null($tmp)) {
+                return $this->render('User/Subscribe.html.twig', [
+                    'form' => $form->createView(),
+                    'error' => 'Email not found.',
+                ]);
+            } else {
+                $em->remove($tmp);
+                $em->flush();
+                return $this->redirectToRoute('Default_Index');
+            }
+        }
+        return $this->render('User/UnSubscribe.html.twig', [
+            'form' => $form->createView(),
+            'error' => false,
+        ]);
     }
 }
