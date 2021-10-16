@@ -123,7 +123,7 @@ class SendSubscriptionCommand extends Command
 
         $progressBar->finish();
         $output->writeln('');
-        $io->success(count($emails). ' emails are sent...');
+        $io->success(count($emails). ' emails sent...');
         return Command::SUCCESS;
     }
 }

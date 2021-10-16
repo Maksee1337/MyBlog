@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -19,6 +20,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PostForm extends AbstractType
 {
     /**
+     * @var UrlGeneratorInterface
+     */
+    private $router;
+    /**
      * @var TranslatorInterface
      */
     private $translator;
@@ -27,9 +32,10 @@ class PostForm extends AbstractType
      * PostForm constructor.
      * @param TranslatorInterface $translator
      */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(TranslatorInterface $translator, UrlGeneratorInterface $router)
     {
         $this->translator = $translator;
+        $this->router = $router;
     }
 
     /**
@@ -47,9 +53,10 @@ class PostForm extends AbstractType
         $builder->add('Submit', SubmitType::class, ['label' => $translator->trans('Submit')]);
 
         if ($options['data']->getId()) { // если пришел айди в запросе, значит это редактирование, выведем кнопку удалить
+            $deleteUrl = $this->router->generate('News_DeletePost', ['post' => $options['data']->getId()]);
             $builder->add('Delete', SubmitType::class, [
                 'attr' => [
-                    'formaction' => '/DeletePost/'.$options['data']->getId(),
+                    'formaction' => $deleteUrl,
                 ],
             ]);
         }

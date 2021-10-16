@@ -133,6 +133,7 @@
       <path value="$PROJECT_DIR$/sources/vendor/doctrine/migrations" />
       <path value="$PROJECT_DIR$/sources/vendor/doctrine/orm" />
       <path value="$PROJECT_DIR$/sources/vendor/symfony/google-mailer" />
+      <path value="$PROJECT_DIR$/sources/vendor/symfony/telegram-notifier" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0" />

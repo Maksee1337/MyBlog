@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\News;
+use App\Event\PostDeletedEvent;
+use App\Event\PostCreatedEvent;
+use App\Event\PostEditedEvent;
 use App\Service\DownloadPostResponce;
 use App\Service\DownloadPostText;
 use App\Service\DownloadPostHtml;
@@ -10,6 +13,7 @@ use App\Form\DownloadForm;
 use App\Form\PostForm;
 use http\Env\Response;
 use phpDocumentor\Reflection\Types\This;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,7 +34,7 @@ class NewsController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function NewPost(Request $request)
+    public function NewPost(Request $request, EventDispatcherInterface $dispatcher)
     {
         $post = new News();
         $form = $this->createForm(PostForm::class, $post);
@@ -38,12 +42,15 @@ class NewsController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+
             $post->setDateTime(new \DateTime());
             $post->setViews(0);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
             $em->flush();
+
+            $dispatcher->dispatch(new PostCreatedEvent($post), PostCreatedEvent::NAME);
 
             return $this->redirectToRoute('News_ShowPost', [
                 'post' => $post->getId(),
@@ -62,12 +69,13 @@ class NewsController extends AbstractController
      * @param News    $post
      * @return Response
      */
-    public function EditPost(Request $request, News $post)
+    public function EditPost(Request $request, News $post, EventDispatcherInterface $dispatcher)
     {
         $form = $this->createForm(PostForm::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { // проверка что пришел запрос и он валиден
+                $dispatcher->dispatch(new PostEditedEvent($post), PostEditedEvent::NAME);
                 $post->setDateTime(new \DateTime());
                 $post->setViews(0);
 
@@ -78,9 +86,11 @@ class NewsController extends AbstractController
                 return $this->redirectToRoute('News_ShowPost', [
                     'post' => $post->getId(),
                 ]);
+
         }
 
-        return $this->render('News/NewPost.html.twig', [
+     //   dd($request);
+        return $this->render('News/EditPost.html.twig', [
             'post' => $post,
             'form' => $form->createView(),
         ]);
@@ -92,11 +102,13 @@ class NewsController extends AbstractController
      * @param News $post
      * @return Response
      */
-    public function DeletePost(News $post)
+    public function DeletePost(News $post, EventDispatcherInterface $dispatcher)
     {
+        $dispatcher->dispatch(new PostDeletedEvent($post), PostDeletedEvent::NAME);
         $em = $this->getDoctrine()->getManager();
-        $em->remove($post);
-        $em->flush();
+       // $em->remove($post);
+       // $em->flush();
+
         return $this->redirectToRoute('Default_Index');
     }
 
